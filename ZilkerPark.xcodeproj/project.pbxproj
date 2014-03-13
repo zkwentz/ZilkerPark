@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B200573C18D1E7F50025C69F /* zillker.png in Resources */ = {isa = PBXBuildFile; fileRef = B200573B18D1E7F50025C69F /* zillker.png */; };
+		B200573F18D1EE3F0025C69F /* ZPZoomableImage.m in Sources */ = {isa = PBXBuildFile; fileRef = B200573E18D1EE3F0025C69F /* ZPZoomableImage.m */; };
 		B29631CC18CF347000213E8F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B29631CB18CF347000213E8F /* Foundation.framework */; };
 		B29631CE18CF347000213E8F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B29631CD18CF347000213E8F /* CoreGraphics.framework */; };
 		B29631D018CF347000213E8F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B29631CF18CF347000213E8F /* UIKit.framework */; };
@@ -21,6 +23,17 @@
 		B29631ED18CF347100213E8F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B29631CF18CF347000213E8F /* UIKit.framework */; };
 		B29631F518CF347100213E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B29631F318CF347100213E8F /* InfoPlist.strings */; };
 		B29631F718CF347100213E8F /* ZilkerParkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B29631F618CF347100213E8F /* ZilkerParkTests.m */; };
+		B296320118CF395800213E8F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296320018CF395800213E8F /* Parse.framework */; };
+		B296320318CF39B500213E8F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296320218CF39B500213E8F /* AudioToolbox.framework */; };
+		B296320518CF39BD00213E8F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296320418CF39BD00213E8F /* CFNetwork.framework */; };
+		B296320718CF39C800213E8F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296320618CF39C800213E8F /* CoreLocation.framework */; };
+		B296320918CF39D000213E8F /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B296320818CF39D000213E8F /* libz.dylib */; };
+		B296320B18CF39D900213E8F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296320A18CF39D900213E8F /* MobileCoreServices.framework */; };
+		B296320D18CF39DE00213E8F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296320C18CF39DE00213E8F /* QuartzCore.framework */; };
+		B296320F18CF39E300213E8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296320E18CF39E300213E8F /* Security.framework */; };
+		B296321118CF39E800213E8F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296321018CF39E800213E8F /* StoreKit.framework */; };
+		B296321318CF39EF00213E8F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296321218CF39EF00213E8F /* SystemConfiguration.framework */; };
+		B296321518CF3C2700213E8F /* Oosterpark_field_of_grass.JPG in Resources */ = {isa = PBXBuildFile; fileRef = B296321418CF3C2700213E8F /* Oosterpark_field_of_grass.JPG */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +47,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B200573B18D1E7F50025C69F /* zillker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zillker.png; sourceTree = "<group>"; };
+		B200573D18D1EE3F0025C69F /* ZPZoomableImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPZoomableImage.h; sourceTree = "<group>"; };
+		B200573E18D1EE3F0025C69F /* ZPZoomableImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPZoomableImage.m; sourceTree = "<group>"; };
 		B29631C818CF347000213E8F /* ZilkerPark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZilkerPark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B29631CB18CF347000213E8F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B29631CD18CF347000213E8F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -53,6 +69,17 @@
 		B29631F218CF347100213E8F /* ZilkerParkTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZilkerParkTests-Info.plist"; sourceTree = "<group>"; };
 		B29631F418CF347100213E8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B29631F618CF347100213E8F /* ZilkerParkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZilkerParkTests.m; sourceTree = "<group>"; };
+		B296320018CF395800213E8F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		B296320218CF39B500213E8F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		B296320418CF39BD00213E8F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		B296320618CF39C800213E8F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		B296320818CF39D000213E8F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B296320A18CF39D900213E8F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		B296320C18CF39DE00213E8F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B296320E18CF39E300213E8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B296321018CF39E800213E8F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		B296321218CF39EF00213E8F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B296321418CF3C2700213E8F /* Oosterpark_field_of_grass.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Oosterpark_field_of_grass.JPG; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +87,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B296321318CF39EF00213E8F /* SystemConfiguration.framework in Frameworks */,
+				B296321118CF39E800213E8F /* StoreKit.framework in Frameworks */,
+				B296320F18CF39E300213E8F /* Security.framework in Frameworks */,
+				B296320D18CF39DE00213E8F /* QuartzCore.framework in Frameworks */,
+				B296320B18CF39D900213E8F /* MobileCoreServices.framework in Frameworks */,
+				B296320918CF39D000213E8F /* libz.dylib in Frameworks */,
+				B296320718CF39C800213E8F /* CoreLocation.framework in Frameworks */,
 				B29631CE18CF347000213E8F /* CoreGraphics.framework in Frameworks */,
+				B296320518CF39BD00213E8F /* CFNetwork.framework in Frameworks */,
+				B296320318CF39B500213E8F /* AudioToolbox.framework in Frameworks */,
 				B29631D018CF347000213E8F /* UIKit.framework in Frameworks */,
 				B29631CC18CF347000213E8F /* Foundation.framework in Frameworks */,
+				B296320118CF395800213E8F /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +138,16 @@
 		B29631CA18CF347000213E8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B296321218CF39EF00213E8F /* SystemConfiguration.framework */,
+				B296321018CF39E800213E8F /* StoreKit.framework */,
+				B296320E18CF39E300213E8F /* Security.framework */,
+				B296320C18CF39DE00213E8F /* QuartzCore.framework */,
+				B296320A18CF39D900213E8F /* MobileCoreServices.framework */,
+				B296320818CF39D000213E8F /* libz.dylib */,
+				B296320618CF39C800213E8F /* CoreLocation.framework */,
+				B296320418CF39BD00213E8F /* CFNetwork.framework */,
+				B296320218CF39B500213E8F /* AudioToolbox.framework */,
+				B296320018CF395800213E8F /* Parse.framework */,
 				B29631CB18CF347000213E8F /* Foundation.framework */,
 				B29631CD18CF347000213E8F /* CoreGraphics.framework */,
 				B29631CF18CF347000213E8F /* UIKit.framework */,
@@ -119,6 +166,8 @@
 				B29631E118CF347000213E8F /* ZWViewController.m */,
 				B29631E318CF347000213E8F /* Images.xcassets */,
 				B29631D218CF347000213E8F /* Supporting Files */,
+				B200573D18D1EE3F0025C69F /* ZPZoomableImage.h */,
+				B200573E18D1EE3F0025C69F /* ZPZoomableImage.m */,
 			);
 			path = ZilkerPark;
 			sourceTree = "<group>";
@@ -126,6 +175,8 @@
 		B29631D218CF347000213E8F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B200573B18D1E7F50025C69F /* zillker.png */,
+				B296321418CF3C2700213E8F /* Oosterpark_field_of_grass.JPG */,
 				B29631D318CF347000213E8F /* ZilkerPark-Info.plist */,
 				B29631D418CF347000213E8F /* InfoPlist.strings */,
 				B29631D718CF347000213E8F /* main.m */,
@@ -229,6 +280,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B296321518CF3C2700213E8F /* Oosterpark_field_of_grass.JPG in Resources */,
+				B200573C18D1E7F50025C69F /* zillker.png in Resources */,
 				B29631E418CF347000213E8F /* Images.xcassets in Resources */,
 				B29631D618CF347000213E8F /* InfoPlist.strings in Resources */,
 				B29631DF18CF347000213E8F /* Main.storyboard in Resources */,
@@ -252,6 +305,7 @@
 			files = (
 				B29631D818CF347000213E8F /* main.m in Sources */,
 				B29631DC18CF347000213E8F /* ZWAppDelegate.m in Sources */,
+				B200573F18D1EE3F0025C69F /* ZPZoomableImage.m in Sources */,
 				B29631E218CF347000213E8F /* ZWViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,6 +433,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/zkwentz/Development/ZilkerPark,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZilkerPark/ZilkerPark-Prefix.pch";
 				INFOPLIST_FILE = "ZilkerPark/ZilkerPark-Info.plist";
@@ -392,6 +450,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/zkwentz/Development/ZilkerPark,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZilkerPark/ZilkerPark-Prefix.pch";
 				INFOPLIST_FILE = "ZilkerPark/ZilkerPark-Info.plist";
@@ -461,6 +523,7 @@
 				B29631FC18CF347100213E8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B29631FD18CF347100213E8F /* Build configuration list for PBXNativeTarget "ZilkerParkTests" */ = {
 			isa = XCConfigurationList;
@@ -469,6 +532,7 @@
 				B29631FF18CF347100213E8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

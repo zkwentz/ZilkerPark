@@ -7,11 +7,20 @@
 //
 
 #import "ZWAppDelegate.h"
+#import <Parse/Parse.h>
+
 
 @implementation ZWAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [Parse setApplicationId:@"QLMHIzNGrrxahyR9UyMKl5RpihzbdfmbTXrADJDn"
+                  clientKey:@"Pn63J0CIX7vzGJqXqOWxmRxf84fna9tKCyCrt1rq"];
+    
+    [PFTwitterUtils initializeWithConsumerKey:@"skX4mlKsEBlTNT4Rz8hPNQ"
+                               consumerSecret:@"Stdjn7AdlkGpAGWia22FuxbrEHuJaxpIIf0SfT7McYg"];
+    
     // Override point for customization after application launch.
     return YES;
 }
