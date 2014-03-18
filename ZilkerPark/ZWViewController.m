@@ -12,6 +12,8 @@
 {
     NSMutableDictionary *pins;
     bool checkingIn;
+    NSUserDefaults *defaults;
+    NSArray *friends;
 }
 @end
 
@@ -36,7 +38,21 @@
     [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
     pins = [[NSMutableDictionary alloc] init];
     checkingIn = false;
+    defaults = [NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
+    
+    
+    //Hide status bar
+    [[UIApplication sharedApplication] setStatusBarHidden:YES
+                                            withAnimation:UIStatusBarAnimationFade];
 }
+
+#pragma mark Status bar methods
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+#pragma mark View Controller Methods
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -82,9 +98,9 @@
             
             // findObjects will return a list of PFUsers that are friends
             // with the current user
-            NSArray *friendUsers = [friendQuery findObjects];
+            friends = [friendQuery findObjects];
             
-            for (PFUser *friend in friendUsers)
+            for (PFUser *friend in friends)
             {
                 PFQuery *query = [PFQuery queryWithClassName:@"UserLocation"];
                 [query whereKey:@"user" equalTo:friend];
@@ -191,6 +207,17 @@
             [relation addObject:currentLocation];
             [user saveInBackground];
         }];
+        //TODO: store friends and send the push notifications//
+        /*if ([defaults boolForKey:@"NotifyFriends"])
+        {
+            NSString* alertMessage = [NSString stringWithFormat:@"%@ just checked in to Zilker Park!",[defaults stringForKey:@"name"]];
+            
+            // Send push notification to query
+            PFPush *push = [[PFPush alloc] init];
+            [push setQuery:pushQuery]; // Set our Installation query
+            [push setMessage:alertMessage];
+            [push sendPushInBackground];
+        }*/
     }
 }
 
@@ -214,19 +241,15 @@
     
     // Send request to Facebook
     [FBRequestConnection startWithGraphPath:facebookID completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-            // result is a dictionary with the user's Facebook data
-            NSDictionary *userData = (NSDictionary *)result;
+        // result is a dictionary with the user's Facebook data
+        NSDictionary *userData = (NSDictionary *)result;
             
-            NSString *facebookID = userData[@"id"];
-            NSString *name = userData[@"name"];
-            NSString *location = userData[@"location"][@"name"];
-            NSString *gender = userData[@"gender"];
-            NSString *birthday = userData[@"birthday"];
-            NSString *relationship = userData[@"relationship_status"];
-            
-            NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
+        [defaults setObject:userData[@"id"] forKey:@"facebookID"];
+        [defaults setObject:userData[@"name"] forKey:@"name"];
         
-            [droppedPin setImageWithURL:pictureURL];
+        NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
+    
+        [droppedPin setImageWithURL:pictureURL];
             
 
     }];
