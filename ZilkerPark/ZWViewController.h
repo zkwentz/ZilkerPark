@@ -10,6 +10,8 @@
 #import <Parse/Parse.h>
 #import <AFNetworking/AFNetworking.h>
 #import <UIImageView+AFNetworking.h>
+#import <UIImage+Additions/UIImage+Additions.h>
+//#import "ZWPinDrop.h"
 
 @interface ZWViewController : UIViewController <UIScrollViewDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, NSURLConnectionDelegate>
 

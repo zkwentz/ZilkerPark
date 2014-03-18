@@ -130,7 +130,6 @@
         if (lastLocation)
         {
             CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
-            NSLog(@"Created: %@",[lastLocation.updatedAt dateTimeAgo]);
             [self dropPinAtPoint:point withID:[[PFUser currentUser] objectForKey:@"fbId"]];
         }
     }];
@@ -241,9 +240,11 @@
         [(UIView*)[pins objectForKey:facebookID] removeFromSuperview];
         [pins removeObjectForKey:facebookID];
     }
+    
+    //ZWPinDrop * droppedPin = [[[NSBundle mainBundle] loadNibNamed:@"ZWPinDrop" owner:self options:nil] firstObject];
     UIImageView *droppedPin = [[UIImageView alloc] initWithFrame:CGRectMake(point.x - 50, point.y - 50,100,100)];
     droppedPin.alpha = 1;
-    droppedPin.backgroundColor = [UIColor blueColor];
+    droppedPin.backgroundColor = [UIColor clearColor];
     droppedPin.layer.shadowColor = [UIColor blackColor].CGColor;
     droppedPin.layer.shadowOpacity = 0.5;
     droppedPin.layer.shadowOffset = CGSizeMake(5.0, 5.0);
@@ -260,8 +261,18 @@
         [defaults setObject:userData[@"name"] forKey:@"name"];
         
         NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
-    
-        [droppedPin setImageWithURL:pictureURL];
+        
+        __weak UIImageView* _droppedPin = droppedPin;
+        
+        //[droppedPin setImageWithURL:pictureURL];
+        [droppedPin setImageWithURLRequest:[[NSURLRequest alloc] initWithURL:pictureURL] placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            
+            _droppedPin.image = [image imageWithRoundedBounds];
+            
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            //do nothing
+        }];
+        //droppedPin.image = [droppedPin.image imageWithCornerRadius:25.0f];
             
 
     }];
