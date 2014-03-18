@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import <AFNetworking/AFNetworking.h>
+#import <UIImageView+AFNetworking.h>
 
 @interface ZWViewController : UIViewController <UIScrollViewDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, NSURLConnectionDelegate>
 

@@ -10,8 +10,7 @@
 
 @interface ZWViewController ()
 {
-    UIImageView *droppedPin;
-    NSMutableData* imageData;
+    NSMutableDictionary *pins;
 }
 @end
 
@@ -36,6 +35,7 @@
                                   withCenter:self.view.center];
     [self.scroller zoomToRect:zoomRect animated:YES];
     [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+    pins = [[NSMutableDictionary alloc] init];
     
 }
 
@@ -84,6 +84,18 @@
             // findObjects will return a list of PFUsers that are friends
             // with the current user
             NSArray *friendUsers = [friendQuery findObjects];
+            
+            for (PFUser *friend in friendUsers)
+            {
+                PFQuery *query = [PFQuery queryWithClassName:@"UserLocation"];
+                [query whereKey:@"user" equalTo:friend];
+                
+                [query findObjectsInBackgroundWithBlock:^(NSArray *locations, NSError *error) {
+                    PFObject* lastLocation = [locations lastObject];
+                    CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
+                    [self dropPinAtPoint:point withID:[friend objectForKey:@"fbId"]];
+                }];
+            }
         }
     }];
     
@@ -93,7 +105,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *locations, NSError *error) {
         PFObject* lastLocation = [locations lastObject];
         CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
-        [self dropPinAtPoint:point];
+        [self dropPinAtPoint:point withID:[[PFUser currentUser] objectForKey:@"fbId"]];
     }];
     
 }
@@ -157,7 +169,7 @@
     if (scroller.zoomScale > scroller.minimumZoomScale)
     {
         CGPoint center = [mapWrapper convertPoint:[recognizer locationInView:recognizer.view] fromView:scroller];
-        [self dropPinAtPoint:center];
+        [self dropPinAtPoint:center withID:[[PFUser currentUser] objectForKey:@"fbId"]];
         PFObject *currentLocation = [PFObject objectWithClassName:@"UserLocation"];
         currentLocation[@"x"] = [NSNumber numberWithInt:center.x];
         currentLocation[@"y"] = [NSNumber numberWithInt:center.y];
@@ -171,13 +183,11 @@
     }
 }
 
-- (void)dropPinAtPoint:(CGPoint)point
+- (void)dropPinAtPoint:(CGPoint)point withID:(NSString*)facebookID
 {
-    FBRequest *request = [FBRequest requestForMe];
     
     // Send request to Facebook
-    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        if (!error) {
+    [FBRequestConnection startWithGraphPath:facebookID completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             // result is a dictionary with the user's Facebook data
             NSDictionary *userData = (NSDictionary *)result;
             
@@ -190,45 +200,25 @@
             
             NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
             
-            // Now add the data to the UI elements
-            // ...
             
-            // Download the user's facebook profile picture
-            imageData = [[NSMutableData alloc] init]; // the data will be loaded in here
-            
-            NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:pictureURL
-                                                                      cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                                  timeoutInterval:2.0f];
-            // Run network request asynchronously
-            NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
-            
-            
-            [droppedPin removeFromSuperview];
-            droppedPin = [[UIImageView alloc] initWithFrame:CGRectMake(point.x - 50, point.y - 50,100,100)];
+            //[pin setObject:urlConnection forKey:@"connection"];
+            if ([pins objectForKey:facebookID])
+            {
+                [(UIView*)[pins objectForKey:facebookID] removeFromSuperview];
+                [pins removeObjectForKey:facebookID];
+            }
+            UIImageView *droppedPin = [[UIImageView alloc] initWithFrame:CGRectMake(point.x - 50, point.y - 50,100,100)];
             droppedPin.alpha = 1;
             droppedPin.backgroundColor = [UIColor blueColor];
             droppedPin.layer.shadowColor = [UIColor blackColor].CGColor;
             droppedPin.layer.shadowOpacity = 0.5;
             droppedPin.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+            [droppedPin setImageWithURL:pictureURL];
             [mapWrapper addSubview:droppedPin];
             [mapWrapper bringSubviewToFront:droppedPin];
-        }
+            [pins setObject:droppedPin forKey:facebookID];
     }];
     
-}
-
-#pragma mark NSURLConnectionDelegate
-
-// Called every time a chunk of the data is received
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [imageData appendData:data]; // Build the image
-}
-
-// Called when the entire image is finished downloading
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    // Set the image in the header imageView
-    droppedPin.image = [UIImage imageWithData:imageData];
-    droppedPin.layer.cornerRadius = 50;
 }
 
 #pragma mark PFLogInViewControllerDelegate
