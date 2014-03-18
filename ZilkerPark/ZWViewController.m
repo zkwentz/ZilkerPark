@@ -11,6 +11,7 @@
 @interface ZWViewController ()
 {
     NSMutableDictionary *pins;
+    bool checkingIn;
 }
 @end
 
@@ -29,14 +30,12 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     scroller.contentSize = self.mapWrapper.frame.size;
-    //[scroller scrollRectToVisible:CGRectMake(-852, -460, 568, 320) animated:NO];
-    //[scroller setZoomScale:scroller.minimumZoomScale animated:NO];
     CGRect zoomRect = [self zoomRectForScale:scroller.minimumZoomScale
                                   withCenter:self.view.center];
     [self.scroller zoomToRect:zoomRect animated:YES];
     [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
     pins = [[NSMutableDictionary alloc] init];
-    
+    checkingIn = false;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -160,13 +159,25 @@
 }
 
 - (IBAction)checkInPress:(UIButton *)sender {
-    CGRect zoomRect = [self zoomRectForScale:scroller.maximumZoomScale
-                                  withCenter:CGPointMake(0, 320)];
-    [scroller zoomToRect:zoomRect animated:YES];
+    if (checkingIn)
+    {
+        CGRect zoomRect = [self zoomRectForScale:scroller.minimumZoomScale
+                                      withCenter:self.view.center];
+        [self.scroller zoomToRect:zoomRect animated:YES];
+        [checkIn setTitle:@"Check In" forState:UIControlStateNormal];
+    }
+    else
+    {
+        CGRect zoomRect = [self zoomRectForScale:scroller.maximumZoomScale
+                                      withCenter:CGPointMake(0, 320)];
+        [scroller zoomToRect:zoomRect animated:YES];
+        [checkIn setTitle:@"Done" forState:UIControlStateNormal];
+    }
+    checkingIn = !checkingIn;
 }
 
 - (IBAction)pinDropped:(UITapGestureRecognizer *)recognizer {
-    if (scroller.zoomScale > scroller.minimumZoomScale)
+    if (scroller.zoomScale > scroller.minimumZoomScale && checkingIn)
     {
         CGPoint center = [mapWrapper convertPoint:[recognizer locationInView:recognizer.view] fromView:scroller];
         [self dropPinAtPoint:center withID:[[PFUser currentUser] objectForKey:@"fbId"]];
@@ -185,6 +196,21 @@
 
 - (void)dropPinAtPoint:(CGPoint)point withID:(NSString*)facebookID
 {
+    //[pin setObject:urlConnection forKey:@"connection"];
+    if ([pins objectForKey:facebookID])
+    {
+        [(UIView*)[pins objectForKey:facebookID] removeFromSuperview];
+        [pins removeObjectForKey:facebookID];
+    }
+    UIImageView *droppedPin = [[UIImageView alloc] initWithFrame:CGRectMake(point.x - 50, point.y - 50,100,100)];
+    droppedPin.alpha = 1;
+    droppedPin.backgroundColor = [UIColor blueColor];
+    droppedPin.layer.shadowColor = [UIColor blackColor].CGColor;
+    droppedPin.layer.shadowOpacity = 0.5;
+    droppedPin.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    [mapWrapper addSubview:droppedPin];
+    [mapWrapper bringSubviewToFront:droppedPin];
+    [pins setObject:droppedPin forKey:facebookID];
     
     // Send request to Facebook
     [FBRequestConnection startWithGraphPath:facebookID completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
@@ -199,24 +225,10 @@
             NSString *relationship = userData[@"relationship_status"];
             
             NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
-            
-            
-            //[pin setObject:urlConnection forKey:@"connection"];
-            if ([pins objectForKey:facebookID])
-            {
-                [(UIView*)[pins objectForKey:facebookID] removeFromSuperview];
-                [pins removeObjectForKey:facebookID];
-            }
-            UIImageView *droppedPin = [[UIImageView alloc] initWithFrame:CGRectMake(point.x - 50, point.y - 50,100,100)];
-            droppedPin.alpha = 1;
-            droppedPin.backgroundColor = [UIColor blueColor];
-            droppedPin.layer.shadowColor = [UIColor blackColor].CGColor;
-            droppedPin.layer.shadowOpacity = 0.5;
-            droppedPin.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+        
             [droppedPin setImageWithURL:pictureURL];
-            [mapWrapper addSubview:droppedPin];
-            [mapWrapper bringSubviewToFront:droppedPin];
-            [pins setObject:droppedPin forKey:facebookID];
+            
+
     }];
     
 }
