@@ -7,6 +7,7 @@
 //
 
 #import "ZWViewController.h"
+#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
 
 @interface ZWViewController ()
 {
@@ -104,11 +105,16 @@
             {
                 PFQuery *query = [PFQuery queryWithClassName:@"UserLocation"];
                 [query whereKey:@"user" equalTo:friend];
+                NSDate *cutoffDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-18000]; //time before 45min
+                [query whereKey:@"updatedAt" greaterThan:cutoffDate];
                 
                 [query findObjectsInBackgroundWithBlock:^(NSArray *locations, NSError *error) {
                     PFObject* lastLocation = [locations lastObject];
-                    CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
-                    [self dropPinAtPoint:point withID:[friend objectForKey:@"fbId"]];
+                    if (lastLocation)
+                    {
+                        CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
+                        [self dropPinAtPoint:point withID:[friend objectForKey:@"fbId"]];
+                    }
                 }];
             }
         }
@@ -116,11 +122,17 @@
     
     PFQuery *query = [PFQuery queryWithClassName:@"UserLocation"];
     [query whereKey:@"user" equalTo:[PFUser currentUser]];
+    NSDate *cutoffDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-18000]; //time before 45min
+    [query whereKey:@"updatedAt" greaterThan:cutoffDate];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *locations, NSError *error) {
         PFObject* lastLocation = [locations lastObject];
-        CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
-        [self dropPinAtPoint:point withID:[[PFUser currentUser] objectForKey:@"fbId"]];
+        if (lastLocation)
+        {
+            CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
+            NSLog(@"Created: %@",[lastLocation.updatedAt dateTimeAgo]);
+            [self dropPinAtPoint:point withID:[[PFUser currentUser] objectForKey:@"fbId"]];
+        }
     }];
     
 }
