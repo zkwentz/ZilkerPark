@@ -34,6 +34,7 @@
 		B296321118CF39E800213E8F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296321018CF39E800213E8F /* StoreKit.framework */; };
 		B296321318CF39EF00213E8F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B296321218CF39EF00213E8F /* SystemConfiguration.framework */; };
 		B296321518CF3C2700213E8F /* Oosterpark_field_of_grass.JPG in Resources */ = {isa = PBXBuildFile; fileRef = B296321418CF3C2700213E8F /* Oosterpark_field_of_grass.JPG */; };
+		B2BE55AF18D7D46E00776AB8 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BE55AE18D7D46E00776AB8 /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		B296321018CF39E800213E8F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		B296321218CF39EF00213E8F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B296321418CF3C2700213E8F /* Oosterpark_field_of_grass.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Oosterpark_field_of_grass.JPG; sourceTree = "<group>"; };
+		B2BE55AE18D7D46E00776AB8 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				B29631D018CF347000213E8F /* UIKit.framework in Frameworks */,
 				B29631CC18CF347000213E8F /* Foundation.framework in Frameworks */,
 				B296320118CF395800213E8F /* Parse.framework in Frameworks */,
+				B2BE55AF18D7D46E00776AB8 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +141,7 @@
 		B29631CA18CF347000213E8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2BE55AE18D7D46E00776AB8 /* FacebookSDK.framework */,
 				B296321218CF39EF00213E8F /* SystemConfiguration.framework */,
 				B296321018CF39E800213E8F /* StoreKit.framework */,
 				B296320E18CF39E300213E8F /* Security.framework */,
@@ -251,6 +255,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Zach Wentz";
 				TargetAttributes = {
+					B29631C718CF347000213E8F = {
+						DevelopmentTeam = R5ZJYULRJA;
+					};
 					B29631E818CF347100213E8F = {
 						TestTargetID = B29631C718CF347000213E8F;
 					};
@@ -373,6 +380,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary Wentz (3VQ9ZT6797)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -391,6 +399,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "7A7EC03A-0DB5-4700-B421-8A3571F3474D";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -423,6 +432,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "7A7EC03A-0DB5-4700-B421-8A3571F3474D";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -433,14 +443,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/zkwentz/Development/ZilkerPark,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZilkerPark/ZilkerPark-Prefix.pch";
 				INFOPLIST_FILE = "ZilkerPark/ZilkerPark-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -450,14 +464,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/zkwentz/Development/ZilkerPark,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZilkerPark/ZilkerPark-Prefix.pch";
 				INFOPLIST_FILE = "ZilkerPark/ZilkerPark-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

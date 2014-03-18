@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface ZWViewController : UIViewController <UIScrollViewDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
+@interface ZWViewController : UIViewController <UIScrollViewDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, NSURLConnectionDelegate>
 
 - (IBAction)doubleTap:(UITapGestureRecognizer *)recognizer;
 - (IBAction)checkInPress:(UIButton *)sender;

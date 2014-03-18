@@ -10,7 +10,8 @@
 
 @interface ZWViewController ()
 {
-    UIView *droppedPin;
+    UIImageView *droppedPin;
+    NSMutableData* imageData;
 }
 @end
 
@@ -36,15 +37,6 @@
     [self.scroller zoomToRect:zoomRect animated:YES];
     [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
     
-    //get last location if exists
-    PFQuery *query = [PFQuery queryWithClassName:@"UserLocation"];
-    [query whereKey:@"user" equalTo:[PFUser currentUser]];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *locations, NSError *error) {
-        PFObject* lastLocation = [locations lastObject];
-        CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
-        [self dropPinAtPoint:point];
-    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -59,14 +51,51 @@
         PFSignUpViewController *signUpViewController = [[PFSignUpViewController alloc] init];
         [signUpViewController setDelegate:self]; // Set ourselves as the delegate
         
-        [logInViewController setFields: PFLogInFieldsTwitter];
+        [logInViewController setFields:PFLogInFieldsFacebook];
         
         // Assign our sign up controller to be displayed from the login controller
         [logInViewController setSignUpController:signUpViewController];
         
         // Present the log in view controller
         [self presentViewController:logInViewController animated:YES completion:NULL];
+    } else {
+        [self update];
     }
+}
+
+- (void)update {
+    
+    // Issue a Facebook Graph API request to get your user's friend list
+    [FBRequestConnection startForMyFriendsWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (!error) {
+            // result will contain an array with your user's friends in the "data" key
+            NSArray *friendObjects = [result objectForKey:@"data"];
+            NSMutableArray *friendIds = [NSMutableArray arrayWithCapacity:friendObjects.count];
+            // Create a list of friends' Facebook IDs
+            for (NSDictionary *friendObject in friendObjects) {
+                [friendIds addObject:[friendObject objectForKey:@"id"]];
+            }
+            
+            // Construct a PFUser query that will find friends whose facebook ids
+            // are contained in the current user's friend list.
+            PFQuery *friendQuery = [PFUser query];
+            [friendQuery whereKey:@"fbId" containedIn:friendIds];
+            
+            // findObjects will return a list of PFUsers that are friends
+            // with the current user
+            NSArray *friendUsers = [friendQuery findObjects];
+        }
+    }];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"UserLocation"];
+    [query whereKey:@"user" equalTo:[PFUser currentUser]];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *locations, NSError *error) {
+        PFObject* lastLocation = [locations lastObject];
+        CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
+        [self dropPinAtPoint:point];
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -144,16 +173,66 @@
 
 - (void)dropPinAtPoint:(CGPoint)point
 {
-    [droppedPin removeFromSuperview];
-    droppedPin = [[UIView alloc] initWithFrame:CGRectMake(point.x - 50, point.y - 50,100,100)];
-    droppedPin.alpha = 0.5;
+    FBRequest *request = [FBRequest requestForMe];
+    
+    // Send request to Facebook
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (!error) {
+            // result is a dictionary with the user's Facebook data
+            NSDictionary *userData = (NSDictionary *)result;
+            
+            NSString *facebookID = userData[@"id"];
+            NSString *name = userData[@"name"];
+            NSString *location = userData[@"location"][@"name"];
+            NSString *gender = userData[@"gender"];
+            NSString *birthday = userData[@"birthday"];
+            NSString *relationship = userData[@"relationship_status"];
+            
+            NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
+            
+            // Now add the data to the UI elements
+            // ...
+            
+            // Download the user's facebook profile picture
+            imageData = [[NSMutableData alloc] init]; // the data will be loaded in here
+            
+            NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:pictureURL
+                                                                      cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                                  timeoutInterval:2.0f];
+            // Run network request asynchronously
+            NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
+            
+            
+            [droppedPin removeFromSuperview];
+            droppedPin = [[UIImageView alloc] initWithFrame:CGRectMake(point.x - 50, point.y - 50,100,100)];
+            droppedPin.alpha = 1;
+            droppedPin.backgroundColor = [UIColor blueColor];
+            droppedPin.layer.shadowColor = [UIColor blackColor].CGColor;
+            droppedPin.layer.shadowOpacity = 0.5;
+            droppedPin.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+            [mapWrapper addSubview:droppedPin];
+            [mapWrapper bringSubviewToFront:droppedPin];
+        }
+    }];
+    
+}
+
+#pragma mark NSURLConnectionDelegate
+
+// Called every time a chunk of the data is received
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [imageData appendData:data]; // Build the image
+}
+
+// Called when the entire image is finished downloading
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // Set the image in the header imageView
+    droppedPin.image = [UIImage imageWithData:imageData];
     droppedPin.layer.cornerRadius = 50;
-    droppedPin.backgroundColor = [UIColor blueColor];
-    [mapWrapper addSubview:droppedPin];
-    [mapWrapper bringSubviewToFront:droppedPin];
 }
 
 #pragma mark PFLogInViewControllerDelegate
+
 // Sent to the delegate to determine whether the log in request should be submitted to the server.
 - (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
     // Check if both fields are completed
@@ -169,10 +248,21 @@
     return NO; // Interrupt login process
 }
 
-// Sent to the delegate when a PFUser is logged in.
-- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+- (IBAction)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+{
+    if (user) {
+        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+            if (!error) {
+                // Store the current user's Facebook ID on the user
+                [[PFUser currentUser] setObject:[result objectForKey:@"id"]
+                                         forKey:@"fbId"];
+                [[PFUser currentUser] saveInBackground];
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            }
+        }];
+    }
 }
+
 
 // Sent to the delegate when the log in attempt fails.
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
