@@ -11,10 +11,9 @@
 @interface ZWPinDrop : UIView
 
 
-@property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (nonatomic, weak) IBOutlet UIImageView* profilePicture;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
-- (IBAction)imageTapped:(UITapGestureRecognizer *)sender;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 
 @end

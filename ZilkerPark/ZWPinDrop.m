@@ -12,6 +12,7 @@
 
 @synthesize profilePicture;
 @synthesize nameLabel;
+@synthesize contentView;
 @synthesize timeAgoLabel;
 
 -(void)awakeFromNib {
@@ -33,4 +34,5 @@
     nameLabel.alpha = 1;
     timeAgoLabel.alpha = 1;
 }
+
 @end

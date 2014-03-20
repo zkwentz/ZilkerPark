@@ -170,14 +170,11 @@
     for(id key in pins)
     {
         NSDictionary* pinDesc = [pins objectForKey:key];
-        UIView* pin = [(ZWPinDrop*)[pinDesc objectForKey:@"view"] contentView];
+        ZWPinDrop* pinDrop = (ZWPinDrop*)[pinDesc objectForKey:@"view"];
+        UIView* pin = pinDrop.contentView;
         CGPoint point = [[pinDesc objectForKey:@"point"] CGPointValue];
-        CGFloat pinWidth = 275 / scroller.zoomScale;
-        CGFloat pinHeight = 180 / scroller.zoomScale;
-        NSLog(@"Width: %f, Height %f",pinWidth,pinHeight);
-        NSLog(@"X: %f, Y: %f",point.x - (pinWidth * 0.18181818181818),point.y - pinHeight);
-        CGRect pinFrame = CGRectMake(point.x - (pinWidth * 0.18181818181818), point.y - pinHeight,pinWidth,pinHeight);
-        pin.frame = pinFrame;
+        pinDrop.nameLabel.font = [UIFont systemFontOfSize:(17 / scroller.zoomScale)];
+        pin.frame = [self pinFrame:point];
     }
 }
 
@@ -205,16 +202,16 @@
 - (IBAction)checkInPress:(UIButton *)sender {
     if (checkingIn)
     {
-        CGRect zoomRect = [self zoomRectForScale:scroller.minimumZoomScale
-                                      withCenter:self.view.center];
-        [self.scroller zoomToRect:zoomRect animated:YES];
+        //CGRect zoomRect = [self zoomRectForScale:scroller.minimumZoomScale
+        //                              withCenter:self.view.center];
+        //[self.scroller zoomToRect:zoomRect animated:YES];
         [checkIn setTitle:@"Check In" forState:UIControlStateNormal];
     }
     else
     {
-        CGRect zoomRect = [self zoomRectForScale:scroller.maximumZoomScale
-                                      withCenter:CGPointMake(0, 320)];
-        [scroller zoomToRect:zoomRect animated:YES];
+        //CGRect zoomRect = [self zoomRectForScale:scroller.maximumZoomScale
+        //                              withCenter:CGPointMake(0, 320)];
+        //[scroller zoomToRect:zoomRect animated:YES];
         [checkIn setTitle:@"Done" forState:UIControlStateNormal];
     }
     checkingIn = !checkingIn;
@@ -259,16 +256,10 @@
     }
     
     NSMutableDictionary *pin = [[NSMutableDictionary alloc] initWithCapacity:2];
-    CGFloat pinWidth = 275 / scroller.zoomScale;
-    CGFloat pinHeight = 180 / scroller.zoomScale;
-    CGRect pinFrame = CGRectMake(point.x - (pinWidth * 0.18181818181818), point.y - pinHeight,pinWidth,pinHeight);
-    
-    NSLog(@"Width: %f, Height %f",pinWidth,pinHeight);
-    NSLog(@"X: %f, Y: %f",point.x - (pinWidth * 0.18181818181818),point.y - pinHeight);
-    [pin setValue: [NSValue valueWithCGPoint:point] forKey:@"point"];
     //ZWPinDrop * droppedPin = [[[NSBundle mainBundle] loadNibNamed:@"ZWPinDrop" owner:self options:nil] firstObject];
-    ZWPinDrop *droppedPin = [[ZWPinDrop alloc] initWithFrame:pinFrame];
+    ZWPinDrop *droppedPin = [[ZWPinDrop alloc] init];
     [droppedPin awakeFromNib];
+    droppedPin.contentView.frame = [self pinFrame:point];
     droppedPin.contentView.alpha = 1;
     droppedPin.contentView.backgroundColor = [UIColor clearColor];
     droppedPin.contentView.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -276,8 +267,14 @@
     droppedPin.contentView.layer.shadowOffset = CGSizeMake(5.0, 5.0);
     [mapWrapper addSubview:droppedPin];
     [mapWrapper bringSubviewToFront:droppedPin];
+    [pin setValue:[NSValue valueWithCGPoint:point] forKey:@"point"];
     [pin setValue:droppedPin forKey:@"view"];
     [pins setObject:pin forKey:facebookID];
+    
+    UIView* pointDrop = [[UIView alloc] initWithFrame:CGRectMake(point.x-10, point.y-10, 20, 20)];
+    pointDrop.backgroundColor = [UIColor redColor];
+    [mapWrapper addSubview:pointDrop];
+    [mapWrapper bringSubviewToFront:pointDrop];
     
     // Send request to Facebook
     [FBRequestConnection startWithGraphPath:facebookID completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
@@ -304,6 +301,15 @@
 
     }];
     
+}
+
+- (CGRect)pinFrame:(CGPoint)point
+{
+    CGFloat scale = scroller.zoomScale;
+    CGFloat pinWidth = 275 / scale;
+    CGFloat pinHeight = 122 / scale;
+    
+    return CGRectMake(point.x - (36 / scale), point.y-pinHeight,pinWidth,pinHeight);
 }
 
 #pragma mark PFLogInViewControllerDelegate
