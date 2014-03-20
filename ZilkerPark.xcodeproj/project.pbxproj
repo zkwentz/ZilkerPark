@@ -37,7 +37,6 @@
 		B296321518CF3C2700213E8F /* Oosterpark_field_of_grass.JPG in Resources */ = {isa = PBXBuildFile; fileRef = B296321418CF3C2700213E8F /* Oosterpark_field_of_grass.JPG */; };
 		B29B154B18D881B8007FB75F /* ZWPinDrop.m in Sources */ = {isa = PBXBuildFile; fileRef = B29B154A18D881B8007FB75F /* ZWPinDrop.m */; };
 		B2B7134E18D883D100AAF098 /* ZWPinDrop.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B7134D18D883D100AAF098 /* ZWPinDrop.xib */; };
-		B2B7135018D88AD600AAF098 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B2B7134F18D88AD600AAF098 /* README.md */; };
 		B2BE55AF18D7D46E00776AB8 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BE55AE18D7D46E00776AB8 /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -90,7 +89,6 @@
 		B29B154918D881B8007FB75F /* ZWPinDrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPinDrop.h; sourceTree = "<group>"; };
 		B29B154A18D881B8007FB75F /* ZWPinDrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPinDrop.m; sourceTree = "<group>"; };
 		B2B7134D18D883D100AAF098 /* ZWPinDrop.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZWPinDrop.xib; sourceTree = "<group>"; };
-		B2B7134F18D88AD600AAF098 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		B2BE55AE18D7D46E00776AB8 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -188,7 +186,6 @@
 				B29B154918D881B8007FB75F /* ZWPinDrop.h */,
 				B29B154A18D881B8007FB75F /* ZWPinDrop.m */,
 				B2B7134D18D883D100AAF098 /* ZWPinDrop.xib */,
-				B2B7134F18D88AD600AAF098 /* README.md */,
 			);
 			path = ZilkerPark;
 			sourceTree = "<group>";
@@ -309,7 +306,6 @@
 				B296321518CF3C2700213E8F /* Oosterpark_field_of_grass.JPG in Resources */,
 				B200573C18D1E7F50025C69F /* zillker.png in Resources */,
 				B29631E418CF347000213E8F /* Images.xcassets in Resources */,
-				B2B7135018D88AD600AAF098 /* README.md in Resources */,
 				B2B7134E18D883D100AAF098 /* ZWPinDrop.xib in Resources */,
 				B29631D618CF347000213E8F /* InfoPlist.strings in Resources */,
 				B29631DF18CF347000213E8F /* Main.storyboard in Resources */,
