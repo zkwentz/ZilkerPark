@@ -14,10 +14,10 @@
 @synthesize nameLabel;
 @synthesize timeAgoLabel;
 
-- (void)awakeFromNib
-{
-    nameLabel.alpha = 0;
-    timeAgoLabel.alpha = 0;
+-(void)awakeFromNib {
+    //Note that you must change @”BNYSharedView’ with whatever your nib is named
+    [[NSBundle mainBundle] loadNibNamed:@"ZWPinDrop" owner:self options:nil];
+    [self addSubview: self.contentView];
 }
 
 /*

@@ -170,15 +170,14 @@
     for(id key in pins)
     {
         NSDictionary* pinDesc = [pins objectForKey:key];
-        UIImageView* pin = (UIImageView*)[pinDesc objectForKey:@"view"];
+        UIView* pin = [(ZWPinDrop*)[pinDesc objectForKey:@"view"] contentView];
         CGPoint point = [[pinDesc objectForKey:@"point"] CGPointValue];
-        CGFloat pinSize = 100 / scrollView.zoomScale;
-        CGRect frame = pin.frame;
-        frame.origin.x = point.x - (pinSize / 2);
-        frame.origin.y = point.y - pinSize;
-        frame.size.height = pinSize;
-        frame.size.width = pinSize;
-        pin.frame = frame;
+        CGFloat pinWidth = 275 / scroller.zoomScale;
+        CGFloat pinHeight = 180 / scroller.zoomScale;
+        NSLog(@"Width: %f, Height %f",pinWidth,pinHeight);
+        NSLog(@"X: %f, Y: %f",point.x - (pinWidth * 0.18181818181818),point.y - pinHeight);
+        CGRect pinFrame = CGRectMake(point.x - (pinWidth * 0.18181818181818), point.y - pinHeight,pinWidth,pinHeight);
+        pin.frame = pinFrame;
     }
 }
 
@@ -255,21 +254,26 @@
     //[pin setObject:urlConnection forKey:@"connection"];
     if ([pins objectForKey:facebookID])
     {
-        [(UIImageView*)[(NSDictionary*)[pins objectForKey:facebookID] objectForKey:@"view"]  removeFromSuperview];
+        [(ZWPinDrop*)[(NSDictionary*)[pins objectForKey:facebookID] objectForKey:@"view"]  removeFromSuperview];
         [pins removeObjectForKey:facebookID];
     }
     
     NSMutableDictionary *pin = [[NSMutableDictionary alloc] initWithCapacity:2];
-    CGFloat pinSize = 100 / scroller.zoomScale;
-    CGRect pinFrame = CGRectMake(point.x - (pinSize/2), point.y - pinSize,pinSize,pinSize);
+    CGFloat pinWidth = 275 / scroller.zoomScale;
+    CGFloat pinHeight = 180 / scroller.zoomScale;
+    CGRect pinFrame = CGRectMake(point.x - (pinWidth * 0.18181818181818), point.y - pinHeight,pinWidth,pinHeight);
+    
+    NSLog(@"Width: %f, Height %f",pinWidth,pinHeight);
+    NSLog(@"X: %f, Y: %f",point.x - (pinWidth * 0.18181818181818),point.y - pinHeight);
     [pin setValue: [NSValue valueWithCGPoint:point] forKey:@"point"];
     //ZWPinDrop * droppedPin = [[[NSBundle mainBundle] loadNibNamed:@"ZWPinDrop" owner:self options:nil] firstObject];
-    UIImageView *droppedPin = [[UIImageView alloc] initWithFrame:pinFrame];
-    droppedPin.alpha = 1;
-    droppedPin.backgroundColor = [UIColor clearColor];
-    droppedPin.layer.shadowColor = [UIColor blackColor].CGColor;
-    droppedPin.layer.shadowOpacity = 0.5;
-    droppedPin.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    ZWPinDrop *droppedPin = [[ZWPinDrop alloc] initWithFrame:pinFrame];
+    [droppedPin awakeFromNib];
+    droppedPin.contentView.alpha = 1;
+    droppedPin.contentView.backgroundColor = [UIColor clearColor];
+    droppedPin.contentView.layer.shadowColor = [UIColor blackColor].CGColor;
+    droppedPin.contentView.layer.shadowOpacity = 0.5;
+    droppedPin.contentView.layer.shadowOffset = CGSizeMake(5.0, 5.0);
     [mapWrapper addSubview:droppedPin];
     [mapWrapper bringSubviewToFront:droppedPin];
     [pin setValue:droppedPin forKey:@"view"];
@@ -279,18 +283,18 @@
     [FBRequestConnection startWithGraphPath:facebookID completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         // result is a dictionary with the user's Facebook data
         NSDictionary *userData = (NSDictionary *)result;
-            
+        
         [defaults setObject:userData[@"id"] forKey:@"facebookID"];
         [defaults setObject:userData[@"name"] forKey:@"name"];
         
         NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
         
-        __weak UIImageView* _droppedPin = droppedPin;
+        __weak UIImageView* _picture = droppedPin.profilePicture;
         
         //[droppedPin setImageWithURL:pictureURL];
-        [droppedPin setImageWithURLRequest:[[NSURLRequest alloc] initWithURL:pictureURL] placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [droppedPin.profilePicture setImageWithURLRequest:[[NSURLRequest alloc] initWithURL:pictureURL] placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
-            _droppedPin.image = [image imageWithRoundedBounds];
+            _picture.image = [image imageWithRoundedBounds];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             //do nothing
