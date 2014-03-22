@@ -254,46 +254,13 @@
     }
     
     NSMutableDictionary *pin = [[NSMutableDictionary alloc] initWithCapacity:2];
-    //ZWPinDrop * droppedPin = [[[NSBundle mainBundle] loadNibNamed:@"ZWPinDrop" owner:self options:nil] firstObject];
-    ZWPinDrop *droppedPin = [[ZWPinDrop alloc] init];
-    [droppedPin awakeFromNib];
+    ZWPinDrop *droppedPin = [[ZWPinDrop alloc] initWithFacebookID:facebookID];
     [droppedPin counterZoom:scroller.zoomScale atPoint:point];
     [mapWrapper addSubview:droppedPin];
     [mapWrapper bringSubviewToFront:droppedPin];
     [pin setValue:[NSValue valueWithCGPoint:point] forKey:@"point"];
     [pin setValue:droppedPin forKey:@"view"];
     [pins setObject:pin forKey:facebookID];
-    
-    UIView* pointDrop = [[UIView alloc] initWithFrame:CGRectMake(point.x-10, point.y-10, 20, 20)];
-    pointDrop.backgroundColor = [UIColor redColor];
-    [mapWrapper addSubview:pointDrop];
-    [mapWrapper bringSubviewToFront:pointDrop];
-    
-    // Send request to Facebook
-    [FBRequestConnection startWithGraphPath:facebookID completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        // result is a dictionary with the user's Facebook data
-        NSDictionary *userData = (NSDictionary *)result;
-        
-        [defaults setObject:userData[@"id"] forKey:@"facebookID"];
-        [defaults setObject:userData[@"name"] forKey:@"name"];
-        
-        NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
-        
-        __weak UIImageView* _picture = droppedPin.profilePicture;
-        
-        //[droppedPin setImageWithURL:pictureURL];
-        [droppedPin.profilePicture setImageWithURLRequest:[[NSURLRequest alloc] initWithURL:pictureURL] placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-            
-            _picture.image = image;
-            
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            //do nothing
-        }];
-        //droppedPin.image = [droppedPin.image imageWithCornerRadius:25.0f];
-            
-
-    }];
-    
 }
 
 #pragma mark PFLogInViewControllerDelegate
