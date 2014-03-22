@@ -15,5 +15,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIView *pinTip;
+
+- (void)counterZoom:(CGFloat)scale atPoint:(CGPoint)point;
 
 @end

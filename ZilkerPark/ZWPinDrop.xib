@@ -2,12 +2,14 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ZWPinDrop">
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="Aoz-z4-mCu"/>
                 <outlet property="nameLabel" destination="IIQ-pI-e17" id="Pth-P3-zeR"/>
+                <outlet property="pinTip" destination="va8-D2-fxS" id="YMi-Kz-XhE"/>
                 <outlet property="profilePicture" destination="eAJ-2y-AZs" id="N1T-xK-BHb"/>
             </connections>
         </placeholder>
@@ -16,35 +18,61 @@
             <rect key="frame" x="0.0" y="0.0" width="275" height="122"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DaB-4k-SYA">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DaB-4k-SYA">
                     <rect key="frame" x="0.0" y="0.0" width="275" height="122"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="va8-D2-fxS">
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="va8-D2-fxS">
                             <rect key="frame" x="36" y="75" width="2" height="47"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="47" id="4GS-bR-a7K"/>
+                            </constraints>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eAJ-2y-AZs">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eAJ-2y-AZs">
                             <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="eAJ-2y-AZs" secondAttribute="height" multiplier="1:1" id="38I-sM-xBb"/>
+                            </constraints>
                             <connections>
                                 <outletCollection property="gestureRecognizers" destination="WWe-xB-4HA" appends="YES" id="2Er-rF-BtH"/>
                             </connections>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIQ-pI-e17">
-                            <rect key="frame" x="83" y="0.0" width="148" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIQ-pI-e17">
+                            <rect key="frame" x="85" y="0.0" width="170" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="IIQ-pI-e17" secondAttribute="height" multiplier="17:3" id="fpL-Gg-qf6"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="IIQ-pI-e17" firstAttribute="leading" secondItem="eAJ-2y-AZs" secondAttribute="trailing" constant="10" id="BE6-4z-ddG"/>
+                        <constraint firstItem="eAJ-2y-AZs" firstAttribute="top" secondItem="DaB-4k-SYA" secondAttribute="top" id="IcU-iL-v8R"/>
+                        <constraint firstAttribute="trailing" secondItem="IIQ-pI-e17" secondAttribute="trailing" constant="20" id="L6B-f9-GFt"/>
+                        <constraint firstItem="IIQ-pI-e17" firstAttribute="leading" secondItem="eAJ-2y-AZs" secondAttribute="trailing" constant="10" id="RFl-EO-GbM"/>
+                        <constraint firstItem="IIQ-pI-e17" firstAttribute="top" secondItem="DaB-4k-SYA" secondAttribute="top" id="Vjh-2U-OYN"/>
+                        <constraint firstItem="eAJ-2y-AZs" firstAttribute="leading" secondItem="DaB-4k-SYA" secondAttribute="leading" id="jJ9-hE-zJX"/>
+                        <constraint firstAttribute="bottom" secondItem="eAJ-2y-AZs" secondAttribute="bottom" constant="47" id="jdL-7j-gwz"/>
+                        <constraint firstAttribute="bottom" secondItem="va8-D2-fxS" secondAttribute="bottom" id="vzg-jl-b0Z"/>
+                        <constraint firstItem="eAJ-2y-AZs" firstAttribute="centerX" secondItem="va8-D2-fxS" secondAttribute="centerX" id="xca-td-Ldg"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <gestureRecognizers/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="DaB-4k-SYA" secondAttribute="trailing" id="4nb-j5-3CR"/>
+                <constraint firstAttribute="bottom" secondItem="DaB-4k-SYA" secondAttribute="bottom" id="jIf-of-Q4g"/>
+                <constraint firstItem="DaB-4k-SYA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="uZZ-vc-5Kg"/>
+                <constraint firstItem="DaB-4k-SYA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="vYS-b1-qjX"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <tapGestureRecognizer id="WWe-xB-4HA">

@@ -171,10 +171,8 @@
     {
         NSDictionary* pinDesc = [pins objectForKey:key];
         ZWPinDrop* pinDrop = (ZWPinDrop*)[pinDesc objectForKey:@"view"];
-        UIView* pin = pinDrop.contentView;
         CGPoint point = [[pinDesc objectForKey:@"point"] CGPointValue];
-        pinDrop.nameLabel.font = [UIFont systemFontOfSize:(17 / scroller.zoomScale)];
-        pin.frame = [self pinFrame:point];
+        [pinDrop counterZoom:scroller.zoomScale atPoint:point];
     }
 }
 
@@ -259,12 +257,7 @@
     //ZWPinDrop * droppedPin = [[[NSBundle mainBundle] loadNibNamed:@"ZWPinDrop" owner:self options:nil] firstObject];
     ZWPinDrop *droppedPin = [[ZWPinDrop alloc] init];
     [droppedPin awakeFromNib];
-    droppedPin.contentView.frame = [self pinFrame:point];
-    droppedPin.contentView.alpha = 1;
-    droppedPin.contentView.backgroundColor = [UIColor clearColor];
-    droppedPin.contentView.layer.shadowColor = [UIColor blackColor].CGColor;
-    droppedPin.contentView.layer.shadowOpacity = 0.5;
-    droppedPin.contentView.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    [droppedPin counterZoom:scroller.zoomScale atPoint:point];
     [mapWrapper addSubview:droppedPin];
     [mapWrapper bringSubviewToFront:droppedPin];
     [pin setValue:[NSValue valueWithCGPoint:point] forKey:@"point"];
@@ -291,7 +284,7 @@
         //[droppedPin setImageWithURL:pictureURL];
         [droppedPin.profilePicture setImageWithURLRequest:[[NSURLRequest alloc] initWithURL:pictureURL] placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
-            _picture.image = [image imageWithRoundedBounds];
+            _picture.image = image;
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             //do nothing
@@ -301,15 +294,6 @@
 
     }];
     
-}
-
-- (CGRect)pinFrame:(CGPoint)point
-{
-    CGFloat scale = scroller.zoomScale;
-    CGFloat pinWidth = 275 / scale;
-    CGFloat pinHeight = 122 / scale;
-    
-    return CGRectMake(point.x - (36 / scale), point.y-pinHeight,pinWidth,pinHeight);
 }
 
 #pragma mark PFLogInViewControllerDelegate
