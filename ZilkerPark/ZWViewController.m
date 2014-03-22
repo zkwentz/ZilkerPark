@@ -97,6 +97,7 @@
             // are contained in the current user's friend list.
             PFQuery *friendQuery = [PFUser query];
             [friendQuery whereKey:@"fbId" containedIn:friendIds];
+            [friendQuery includeKey:@"user"];
             
             // findObjects will return a list of PFUsers that are friends
             // with the current user
@@ -114,7 +115,7 @@
                     if (lastLocation)
                     {
                         CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
-                        [self dropPinAtPoint:point withID:[friend objectForKey:@"fbId"]];
+                        [self dropPinAtPoint:point withLocation:lastLocation];
                     }
                 }];
             }
@@ -123,6 +124,7 @@
     
     PFQuery *query = [PFQuery queryWithClassName:@"UserLocation"];
     [query whereKey:@"user" equalTo:[PFUser currentUser]];
+    [query includeKey:@"user"];
     NSDate *cutoffDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-18000]; //time before 45min
     [query whereKey:@"updatedAt" greaterThan:cutoffDate];
     
@@ -131,7 +133,7 @@
         if (lastLocation)
         {
             CGPoint point = CGPointMake([[lastLocation objectForKey:@"x"] intValue], [[lastLocation objectForKey:@"y"] intValue]);
-            [self dropPinAtPoint:point withID:[[PFUser currentUser] objectForKey:@"fbId"]];
+            [self dropPinAtPoint:point withLocation:lastLocation];
         }
     }];
     
@@ -219,7 +221,7 @@
     if (scroller.zoomScale > scroller.minimumZoomScale && checkingIn)
     {
         CGPoint center = [mapWrapper convertPoint:[recognizer locationInView:recognizer.view] fromView:scroller];
-        [self dropPinAtPoint:center withID:[[PFUser currentUser] objectForKey:@"fbId"]];
+        [self dropPinAtPoint:center withLocation:nil];
         PFObject *currentLocation = [PFObject objectWithClassName:@"UserLocation"];
         currentLocation[@"x"] = [NSNumber numberWithInt:center.x];
         currentLocation[@"y"] = [NSNumber numberWithInt:center.y];
@@ -244,9 +246,14 @@
     }
 }
 
-- (void)dropPinAtPoint:(CGPoint)point withID:(NSString*)facebookID
+- (void)dropPinAtPoint:(CGPoint)point withLocation:(PFObject*)location
 {
     //[pin setObject:urlConnection forKey:@"connection"];
+    NSString* facebookID = @"";
+    if (location == nil)
+        facebookID = [[PFUser currentUser] objectForKey:@"fbId"];
+    else
+        facebookID = [[location objectForKey:@"user"] objectForKey:@"fbId"];
     if ([pins objectForKey:facebookID])
     {
         [(ZWPinDrop*)[(NSDictionary*)[pins objectForKey:facebookID] objectForKey:@"view"]  removeFromSuperview];
@@ -254,7 +261,7 @@
     }
     
     NSMutableDictionary *pin = [[NSMutableDictionary alloc] initWithCapacity:2];
-    ZWPinDrop *droppedPin = [[ZWPinDrop alloc] initWithFacebookID:facebookID];
+    ZWPinDrop *droppedPin = [[ZWPinDrop alloc] initWithFacebookID:facebookID andTimestamp:location.updatedAt];
     [droppedPin counterZoom:scroller.zoomScale atPoint:point];
     [mapWrapper addSubview:droppedPin];
     [mapWrapper bringSubviewToFront:droppedPin];

@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIView *pinTip;
 
-- (id)initWithFacebookID:(NSString*)facebookID;
+- (id)initWithFacebookID:(NSString*)facebookID andTimestamp:(NSDate*)timestamp;
 - (void)counterZoom:(CGFloat)scale atPoint:(CGPoint)point;
 
 @end

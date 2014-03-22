@@ -11,6 +11,7 @@
                 <outlet property="nameLabel" destination="IIQ-pI-e17" id="Pth-P3-zeR"/>
                 <outlet property="pinTip" destination="va8-D2-fxS" id="YMi-Kz-XhE"/>
                 <outlet property="profilePicture" destination="eAJ-2y-AZs" id="N1T-xK-BHb"/>
+                <outlet property="timeAgoLabel" destination="AEw-p3-4Cy" id="P5a-hJ-2wG"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -50,14 +51,26 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEw-p3-4Cy">
+                            <rect key="frame" x="85" y="27" width="170" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="AEw-p3-4Cy" secondAttribute="height" multiplier="170:21" id="FuX-bA-PKD"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="AEw-p3-4Cy" firstAttribute="top" secondItem="IIQ-pI-e17" secondAttribute="bottom" constant="-3" id="AY2-du-eKF"/>
                         <constraint firstItem="IIQ-pI-e17" firstAttribute="leading" secondItem="eAJ-2y-AZs" secondAttribute="trailing" constant="10" id="BE6-4z-ddG"/>
                         <constraint firstItem="eAJ-2y-AZs" firstAttribute="top" secondItem="DaB-4k-SYA" secondAttribute="top" id="IcU-iL-v8R"/>
                         <constraint firstAttribute="trailing" secondItem="IIQ-pI-e17" secondAttribute="trailing" constant="20" id="L6B-f9-GFt"/>
                         <constraint firstItem="IIQ-pI-e17" firstAttribute="leading" secondItem="eAJ-2y-AZs" secondAttribute="trailing" constant="10" id="RFl-EO-GbM"/>
+                        <constraint firstItem="AEw-p3-4Cy" firstAttribute="centerX" secondItem="IIQ-pI-e17" secondAttribute="centerX" id="RHx-Te-5Yn"/>
                         <constraint firstItem="IIQ-pI-e17" firstAttribute="top" secondItem="DaB-4k-SYA" secondAttribute="top" id="Vjh-2U-OYN"/>
+                        <constraint firstItem="AEw-p3-4Cy" firstAttribute="leading" secondItem="eAJ-2y-AZs" secondAttribute="trailing" constant="10" id="eic-bz-niZ"/>
                         <constraint firstItem="eAJ-2y-AZs" firstAttribute="leading" secondItem="DaB-4k-SYA" secondAttribute="leading" id="jJ9-hE-zJX"/>
                         <constraint firstAttribute="bottom" secondItem="eAJ-2y-AZs" secondAttribute="bottom" constant="47" id="jdL-7j-gwz"/>
                         <constraint firstAttribute="bottom" secondItem="va8-D2-fxS" secondAttribute="bottom" id="vzg-jl-b0Z"/>

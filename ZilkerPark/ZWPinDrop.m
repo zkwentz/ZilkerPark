@@ -8,6 +8,7 @@
 
 #import "ZWPinDrop.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
 
 @implementation ZWPinDrop
 
@@ -17,7 +18,7 @@
 @synthesize timeAgoLabel;
 @synthesize pinTip;
 
-- (id)initWithFacebookID:(NSString*)facebookID
+- (id)initWithFacebookID:(NSString*)facebookID andTimestamp:(NSDate*)timestamp
 {
     if (self = [super init])
     {
@@ -28,6 +29,7 @@
             NSDictionary *userData = (NSDictionary *)result;
             
             nameLabel.text = userData[@"name"];
+            timeAgoLabel.text = [timestamp timeAgo];
             
             NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
             
@@ -63,6 +65,7 @@
 - (void)counterZoom:(CGFloat)scale atPoint:(CGPoint)point
 {
     nameLabel.font = [UIFont systemFontOfSize:(17/scale)];
+    timeAgoLabel.font = [UIFont systemFontOfSize:(10/scale)];
     CGFloat pinWidth = 275 / scale;
     CGFloat pinHeight = 122 / scale;
     pinTip.frame = CGRectMake(pinTip.frame.origin.x, pinTip.frame.origin.y, 2 / scale, pinTip.frame.size.height);
